@@ -134,13 +134,13 @@ def _enum_schema(field: EnumField) -> dict:
 def _list_schema(field: FieldList) -> dict:
     schema = {
         'type': 'array',
-        'items': _field_to_schema(field._field)
+        'items': _field_to_schema(field.field)
     }
 
-    if field._min_length is not None:
-        schema['minItems'] = field._min_length
-    if field._max_length is not None:
-        schema['maxItems'] = field._max_length
+    if field.min_length is not None:
+        schema['minItems'] = field.min_length
+    if field.max_length is not None:
+        schema['maxItems'] = field.max_length
 
     return schema
 
@@ -155,10 +155,10 @@ def _form_list_schema(field: FormFieldList) -> dict:
         'items': generate_form_schema(field.form)
     }
 
-    if field._min_length is not None:
-        schema['minItems'] = field._min_length
-    if field._max_length is not None:
-        schema['maxItems'] = field._max_length
+    if field.min_length is not None:
+        schema['minItems'] = field.min_length
+    if field.max_length is not None:
+        schema['maxItems'] = field.max_length
 
     return schema
 
@@ -166,7 +166,7 @@ def _form_list_schema(field: FormFieldList) -> dict:
 def _dictionary_schema(field: DictionaryField) -> dict:
     return {
         'type': 'object',
-        'additionalProperties': _field_to_schema(field._value_field)
+        'additionalProperties': _field_to_schema(field.value_field)
     }
 
 

@@ -55,6 +55,18 @@ class FieldList(Field):
         self._max_length = max_length
         self._field = field
 
+    @property
+    def field(self):
+        return self._field
+
+    @property
+    def min_length(self):
+        return self._min_length
+
+    @property
+    def max_length(self):
+        return self._max_length
+
     def to_python(self, value) -> typing.List:
         if not value:
             return []
@@ -117,6 +129,14 @@ class FormFieldList(FormField):
         'min_length': _('Ensure this list has at least %(min)d values (it has %(length)d).'),
         'not_list': _('This field needs to be a list of objects!')
     }
+
+    @property
+    def min_length(self):
+        return self._min_length
+
+    @property
+    def max_length(self):
+        return self._max_length
 
     def to_python(self, value):
         if not value:
@@ -193,6 +213,10 @@ class DictionaryField(Field):
 
         self._value_field = value_field
         self._key_field = key_field
+
+    @property
+    def value_field(self):
+        return self._value_field
 
     def to_python(self, value) -> dict:
         if not isinstance(value, dict):

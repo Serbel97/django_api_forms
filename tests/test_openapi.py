@@ -99,6 +99,34 @@ class ScalarFieldsTests(SimpleTestCase):
             {'type': 'string', 'enum': ['rock', 'punk']}
         )
 
+    def test_grouped_choice_field(self):
+        class MyForm(Form):
+            genre = fields.ChoiceField(
+                required=False,
+                choices=(
+                    ('Rock', (('rock', 'Rock'), ('punk', 'Punk'))),
+                    ('Electronic', (('techno', 'Techno'),))
+                )
+            )
+
+        schema = generate_form_schema(MyForm)
+
+        self.assertEqual(
+            schema['properties']['genre'],
+            {'type': 'string', 'enum': ['rock', 'punk', 'techno']}
+        )
+
+    def test_boolean_choice_field(self):
+        class MyForm(Form):
+            flag = fields.ChoiceField(required=False, choices=((True, 'Yes'), (False, 'No')))
+
+        schema = generate_form_schema(MyForm)
+
+        self.assertEqual(
+            schema['properties']['flag'],
+            {'type': 'boolean', 'enum': [True, False]}
+        )
+
     def test_title_and_description(self):
         class MyForm(Form):
             name = fields.CharField(required=False, label='Name', help_text='Artist name')
@@ -119,6 +147,51 @@ class LibraryFieldsTests(SimpleTestCase):
         self.assertEqual(
             schema['properties']['type'],
             {'type': 'string', 'enum': ['cd', 'vinyl']}
+        )
+
+    def test_integer_enum_field(self):
+        class Rating(Enum):
+            GOOD = 1
+            BAD = 2
+
+        class MyForm(Form):
+            rating = EnumField(enum=Rating, required=False)
+
+        schema = generate_form_schema(MyForm)
+
+        self.assertEqual(
+            schema['properties']['rating'],
+            {'type': 'integer', 'enum': [1, 2]}
+        )
+
+    def test_float_enum_field(self):
+        class Threshold(Enum):
+            LOW = 0.5
+            HIGH = 1.5
+
+        class MyForm(Form):
+            threshold = EnumField(enum=Threshold, required=False)
+
+        schema = generate_form_schema(MyForm)
+
+        self.assertEqual(
+            schema['properties']['threshold'],
+            {'type': 'number', 'enum': [0.5, 1.5]}
+        )
+
+    def test_mixed_enum_field(self):
+        class Weird(Enum):
+            NUMBER = 1
+            TEXT = 'one'
+
+        class MyForm(Form):
+            weird = EnumField(enum=Weird, required=False)
+
+        schema = generate_form_schema(MyForm)
+
+        self.assertEqual(
+            schema['properties']['weird'],
+            {'enum': [1, 'one']}
         )
 
     def test_field_list(self):
@@ -165,7 +238,7 @@ class LibraryFieldsTests(SimpleTestCase):
             title = fields.CharField(required=True, max_length=100)
 
         class MyForm(Form):
-            songs = FormFieldList(form=SongForm, min_length=1, required=False)
+            songs = FormFieldList(form=SongForm, min_length=1, max_length=20, required=False)
 
         schema = generate_form_schema(MyForm)
 
@@ -180,7 +253,8 @@ class LibraryFieldsTests(SimpleTestCase):
                     },
                     'required': ['title']
                 },
-                'minItems': 1
+                'minItems': 1,
+                'maxItems': 20
             }
         )
 
