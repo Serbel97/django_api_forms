@@ -11,6 +11,7 @@ nav:
   - Tutorial: tutorial.md
   - Fields: fields.md
   - Example: example.md
+  - OpenAPI: openapi.md
   - API Reference: api_reference.md
   - Contributing: contributing.md
 

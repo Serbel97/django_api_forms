@@ -12,6 +12,7 @@ from .fields import RRuleField
 from .fields import GeoJSONField
 from .forms import Form
 from .forms import ModelForm
+from .openapi import generate_form_schema
 from .version import __version__
 
 __all__ = [
@@ -29,5 +30,6 @@ __all__ = [
     'GeoJSONField',
     'Form',
     'ModelForm',
+    'generate_form_schema',
     '__version__'
 ]

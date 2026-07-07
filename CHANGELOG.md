@@ -1,5 +1,10 @@
 # Changelog
 
+## Unreleased
+
+- **Added**: `generate_form_schema` helper for generating OpenAPI 3.0 request-body schemas from form definitions
+  ([#72](https://github.com/Sibyx/django_api_forms/issues/72))
+
 ## 1.0.0-rc.11 : 16.08.2024
 
 - **Fixed**: Proper manipulation with `BaseStrategy` instances during population

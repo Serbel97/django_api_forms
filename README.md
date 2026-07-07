@@ -27,6 +27,7 @@ Django API Forms provides a declarative way to:
 - **Object Population**: Easily populate Django models or other objects with validated data
 - **Customizable Validation**: Define custom validation rules at the field or form level
 - **Multiple Content Types**: Support for JSON, MessagePack, and extensible to other formats
+- **OpenAPI Schema Generation**: Generate OpenAPI 3.0 request-body schemas straight from your form definitions
 
 ## Motivation
 
