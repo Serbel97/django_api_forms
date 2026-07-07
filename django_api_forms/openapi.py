@@ -17,10 +17,7 @@ from .fields import (
 
 
 def generate_form_schema(form_class: typing.Type) -> dict:
-    """
-    Generate an OpenAPI 3.0 Schema Object (as a plain dict) describing the JSON
-    request body accepted by the given Form class.
-    """
+    """Generate an OpenAPI 3.0 Schema Object (plain dict) describing the JSON request body of the given Form."""
     mapping = {}
     meta = getattr(form_class, 'Meta', None)
     if isinstance(meta, type) and hasattr(meta, 'mapping'):
@@ -191,7 +188,7 @@ FIELD_SCHEMA_HANDLERS = {
     FormFieldList: _form_list_schema,
     DictionaryField: _dictionary_schema,
     FileField: lambda field: _string_schema(field, 'byte'),
-    RRuleField: lambda field: _string_schema(field),
+    RRuleField: _string_schema,
     GeoJSONField: lambda field: {'type': 'object'},
     AnyField: lambda field: {},
 }
